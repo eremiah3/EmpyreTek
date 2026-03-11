@@ -481,22 +481,25 @@ nav.scrolled {
   background-clip: text;
 }
 .drawer-x {
-  width: 30px;
-  height: 30px;
-  background: transparent;
-  border: 1px solid var(--drawer-bd);
-  border-radius: 7px;
-  color: var(--txt2);
-  font-size: 0.9rem;
+  width: 32px;
+  height: 32px;
+  background: var(--card);
+  border: 1.5px solid var(--blue);
+  border-radius: 8px;
+  color: #fff;
+  font-size: 2rem;
+  font-weight: bold;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: all 0.2s;
+  box-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
 }
 .drawer-x:hover {
-  border-color: var(--blue);
-  color: var(--blue);
+  background: var(--blue);
+  color: #fff;
+  box-shadow: 0 0 20px rgba(0, 240, 255, 0.5);
 }
 
 /* drawer nav links */
