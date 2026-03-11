@@ -1,345 +1,692 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EmpyreTek - Building Digital Empires</title>
-    
-    <!-- Meta Description -->
-    <meta name="description" content="EmpyreTek is a leading tech company specializing in frontend development, backend development, IT consultation, graphics design, mobile development, and e-commerce solutions. We build digital empires for businesses worldwide.">
-    
-    <!-- Meta Keywords -->
-    <meta name="keywords" content="web development, frontend development, backend development, IT consultation, graphics design, mobile app development, e-commerce solutions, React, Vue.js, Node.js, Python, PHP, UI/UX design, logo design, Lagos, Nigeria, tech company">
-    
-    <!-- Meta Author -->
+    <title>EmpyreTek – Building Digital Empires</title>
+    <meta name="description"
+        content="EmpyreTek – Lagos-based tech company. Frontend, backend, mobile, graphics, e-commerce & WordPress development.">
     <meta name="author" content="EmpyreTek">
-    
-    <!-- Meta Robots -->
     <meta name="robots" content="index, follow">
-    
-    <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://empyretek.netlify.app/">
-    <meta property="og:title" content="EmpyreTek - Building Digital Empires">
-    <meta property="og:description" content="Leading tech company specializing in web development, IT consultation, graphics design, and e-commerce solutions.">
-    <meta property="og:image" content="logo2.png">
-    
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://empyretek.netlify.app/">
-    <meta property="twitter:title" content="EmpyreTek - Building Digital Empires">
-    <meta property="twitter:description" content="Leading tech company specializing in web development, IT consultation, graphics design, and e-commerce solutions.">
-    <meta property="twitter:image" content="logo2.png">
-    
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" href="logo2.png">
-    <link rel="apple-touch-icon" href="logo2.png">
-    
-    <!-- Theme Color -->
+    <meta property="og:title" content="EmpyreTek – Building Digital Empires">
+    <meta property="og:description"
+        content="EmpyreTek: web development, IT consultation, graphics design, e-commerce, WordPress.">
     <meta name="theme-color" content="#6366f1">
-    
+    <link rel="icon" type="image/png" href="images/file.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 </head>
-<body>
-    <!-- Animated Background -->
-    <div class="bg-animation" id="bgAnimation"></div>
 
-    <!-- Navigation -->
-    <nav id="navbar">
-        <div class="nav-container">
+<body>
+
+    <!-- Cursor -->
+    <div class="cursor" id="cur"></div>
+    <div class="cursor-ring" id="curRing"></div>
+
+    <!-- Ambient background -->
+    <div class="bg-canvas" id="bgCanvas">
+        <div class="orb orb-a"></div>
+        <div class="orb orb-b"></div>
+        <div class="orb orb-c"></div>
+        <div class="orb orb-d"></div>
+    </div>
+
+    <!-- Drawer backdrop -->
+    <div class="drawer-backdrop" id="drawerBackdrop"></div>
+
+    <!-- ===== NAV ===== -->
+    <nav id="nav">
+        <div class="nav-wrap">
+
+            <!-- Logo -->
             <a href="#home" class="logo">
-                <div class="logo-icon"><img src="logo.png" alt="" style="width: 30px;" ></div>
+                <div class="logo-box">
+                    <img src="images/logo.png" alt="" onerror="this.parentElement.innerHTML='&#9889;'">
+                </div>
                 EmpyreTek
             </a>
-            <button class="nav-toggle" id="navToggle">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
+
+            <!-- Desktop links -->
             <ul class="nav-links" id="navLinks">
                 <li><a href="#home">Home</a></li>
                 <li><a href="#about">About</a></li>
                 <li><a href="#services">Services</a></li>
+                <li><a href="#process">Process</a></li>
                 <li><a href="#gallery">Gallery</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
+
+            <div class="nav-actions">
+                <!-- Theme toggle -->
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                    <span class="toggle-knob"></span>
+                    <span class="toggle-label dark-lbl">🌙</span>
+                    <span class="toggle-label light-lbl">☀️</span>
+                </button>
+
+                <!-- Hamburger — 3 bars that animate to X -->
+                <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
+                    <span class="bar bar-1"></span>
+                    <span class="bar bar-2"></span>
+                    <span class="bar bar-3"></span>
+                </button>
+            </div>
+
         </div>
     </nav>
 
-    <!-- Hero Section -->
+    <!-- ===== MOBILE DRAWER ===== -->
+    <aside class="side-drawer" id="sideDrawer" aria-hidden="true">
+        <div class="drawer-header">
+            <span class="drawer-logo">EmpyreTek</span>
+            <button class="drawer-x" id="drawerClose" aria-label="Close">&#10005;</button>
+        </div>
+        <nav class="drawer-links">
+            <a href="#home" class="drawer-item"><span class="di-num">01</span><span class="di-label">Home</span><span
+                    class="di-arrow">→</span></a>
+            <a href="#about" class="drawer-item"><span class="di-num">02</span><span class="di-label">About</span><span
+                    class="di-arrow">→</span></a>
+            <a href="#services" class="drawer-item"><span class="di-num">03</span><span
+                    class="di-label">Services</span><span class="di-arrow">→</span></a>
+            <a href="#process" class="drawer-item"><span class="di-num">04</span><span
+                    class="di-label">Process</span><span class="di-arrow">→</span></a>
+            <a href="#gallery" class="drawer-item"><span class="di-num">05</span><span
+                    class="di-label">Gallery</span><span class="di-arrow">→</span></a>
+            <a href="#contact" class="drawer-item"><span class="di-num">06</span><span
+                    class="di-label">Contact</span><span class="di-arrow">→</span></a>
+        </nav>
+        <div class="drawer-cta">
+            <a href="#contact" class="btn btn-p">🚀 Start a Project</a>
+        </div>
+        <div class="drawer-info">
+            <p>Lagos, Nigeria</p>
+            <p>agboolagbolahan14@gmail.com</p>
+        </div>
+    </aside>
+
+    <!-- ===== HERO ===== -->
     <section class="hero" id="home">
         <div class="hero-grid"></div>
-        <div class="hero-content">
+        <svg class="hero-deco deco-tr" width="200" height="200" viewBox="0 0 200 200" aria-hidden="true">
+            <circle cx="100" cy="100" r="80" fill="none" stroke="#00f0ff" stroke-width=".8" stroke-dasharray="4 6" />
+            <circle cx="100" cy="100" r="55" fill="none" stroke="#bf00ff" stroke-width=".8" stroke-dasharray="2 8" />
+            <circle cx="100" cy="100" r="30" fill="none" stroke="#ff006e" stroke-width=".8" />
+            <line x1="20" y1="100" x2="180" y2="100" stroke="#00f0ff" stroke-width=".5" opacity=".4" />
+            <line x1="100" y1="20" x2="100" y2="180" stroke="#00f0ff" stroke-width=".5" opacity=".4" />
+        </svg>
+        <svg class="hero-deco deco-bl" width="140" height="140" viewBox="0 0 140 140" aria-hidden="true">
+            <rect x="10" y="10" width="120" height="120" rx="12" fill="none" stroke="#bf00ff" stroke-width="1"
+                stroke-dasharray="5 5" />
+            <rect x="30" y="30" width="80" height="80" rx="8" fill="none" stroke="#00f0ff" stroke-width=".8" />
+            <rect x="50" y="50" width="40" height="40" rx="4" fill="none" stroke="#ff006e" stroke-width=".8" />
+        </svg>
+
+        <div class="hero-inner">
+            <!-- Left text -->
             <div class="hero-text">
-                <h1>
-                    <span class="glitch" data-text="Building">Building</span> <span class="gradient-text">Digital Empires</span> For Tomorrow
+                <div class="hero-badge"><span class="badge-dot"></span>Available for new projects · Lagos, Nigeria</div>
+                <h1 class="hero-h1">
+                    <span class="glitch" data-text="Building">Building</span><br>
+                    <span class="grad-text">Digital Empires</span><br>
+                    For Tomorrow
                 </h1>
-                <p>We craft revolutionary tech solutions that transform businesses into industry leaders. Powered by AI, blockchain, and cutting-edge innovation.</p>
-                <div class="cta-group">
-                    <a href="#contact" class="btn btn-primary">Start Your Empire</a>
-                    <a href="#services" class="btn btn-secondary">Explore Solutions</a>
+                <p class="hero-p">We craft revolutionary tech solutions that transform businesses into industry leaders.
+                    Powered by innovation, engineered for dominance — one line of code at a time.</p>
+                <div class="cta-row">
+                    <a href="#contact" class="btn btn-p">🚀 Start Your Empire</a>
+                    <a href="#services" class="btn btn-s">Explore Solutions</a>
+                </div>
+                <div class="hero-stats">
+                    <div>
+                        <div class="stat-num">15+</div>
+                        <div class="stat-lbl">Projects Built</div>
+                    </div>
+                    <div>
+                        <div class="stat-num">15+</div>
+                        <div class="stat-lbl">Happy Clients</div>
+                    </div>
+                    <div>
+                        <div class="stat-num">4+</div>
+                        <div class="stat-lbl">Years Exp.</div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
 
-    <!-- About Section -->
-    <section class="about" id="about">
-        <div class="section-header">
-            <h2 class="section-title">Why <span class="gradient-text">EmpyreTek</span>?</h2>
-            <p class="section-subtitle">We don't just build software. We architect digital ecosystems that dominate markets.</p>
-        </div>
-        <div class="about-grid">
-            <div class="about-card">
-                <div class="about-icon">🚀</div>
-                <h3>Innovation First</h3>
-                <p>We leverage cutting-edge technologies like AI, machine learning, and blockchain to create solutions that don't just meet today's needs but anticipate tomorrow's challenges.</p>
-            </div>
-            <div class="about-card">
-                <div class="about-icon">💎</div>
-                <h3>Premium Quality</h3>
-                <p>Every line of code, every pixel, every interaction is crafted with meticulous attention to detail. We deliver nothing less than excellence.</p>
-            </div>
-            <div class="about-card">
-                <div class="about-icon">⚡</div>
-                <h3>Lightning Fast</h3>
-                <p>Speed isn't a feature, it's a requirement. Our optimized infrastructure ensures your digital empire runs at peak performance 24/7.</p>
-            </div>
-            <div class="about-card">
-                <div class="about-icon">🛡️</div>
-                <h3>Fort Knox Security</h3>
-                <p>Military-grade encryption, advanced threat detection, and continuous monitoring keep your empire impenetrable against digital threats.</p>
-            </div>
-            <div class="about-card">
-                <div class="about-icon">🎯</div>
-                <h3>Result Driven</h3>
-                <p>We measure success in ROI, not features. Every solution we build is engineered to deliver measurable business outcomes.</p>
-            </div>
-            <div class="about-card">
-                <div class="about-icon">🌐</div>
-                <h3>Global Scale</h3>
-                <p>Built to scale from day one. Our infrastructure supports millions of users across continents without breaking a sweat.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Services Section -->
-    <section class="services" id="services">
-        <div class="section-header">
-            <h2 class="section-title">Our <span class="gradient-text">Arsenal</span></h2>
-            <p class="section-subtitle">Powerful solutions engineered to conquer any digital challenge</p>
-        </div>
-        <div class="services-grid">
-            <div class="service-card">
-                <div class="service-number">01</div>
-                <h3>Frontend Development</h3>
-                <p>Creating stunning, responsive, and user-friendly interfaces that captivate your audience. We build immersive web experiences with modern frameworks.</p>
-                <div class="service-tech">
-                    <span class="tech-tag">React</span>
-                    <span class="tech-tag">Vue.js</span>
-                    <span class="tech-tag">Angular</span>
-                    <span class="tech-tag">JavaScript</span>
-                </div>
-            </div>
-            <div class="service-card">
-                <div class="service-number">02</div>
-                <h3>Backend Development</h3>
-                <p>Building robust, scalable, and secure server-side solutions that power your applications. From APIs to database management, we handle it all.</p>
-                <div class="service-tech">
-                    <span class="tech-tag">Node.js</span>
-                    <span class="tech-tag">Python</span>
-                    <span class="tech-tag">PHP</span>
-                    <span class="tech-tag">Database</span>
-                </div>
-            </div>
-            <div class="service-card">
-                <div class="service-number">03</div>
-                <h3>IT Consultation</h3>
-                <p>Expert technology advisory to help you navigate the digital landscape. We provide strategic guidance on software architecture and digital transformation.</p>
-                <div class="service-tech">
-                    <span class="tech-tag">Strategy</span>
-                    <span class="tech-tag">Architecture</span>
-                    <span class="tech-tag">Audit</span>
-                    <span class="tech-tag">Optimization</span>
-                </div>
-            </div>
-            <div class="service-card">
-                <div class="service-number">04</div>
-                <h3>Graphics Design</h3>
-                <p>Transforming ideas into visually stunning designs that tell your brand story. From logos to complete visual identities, we create designs that leave lasting impressions.</p>
-                <div class="service-tech">
-                    <span class="tech-tag">Logo Design</span>
-                    <span class="tech-tag">Branding</span>
-                    <span class="tech-tag">UI/UX</span>
-                    <span class="tech-tag">Print</span>
-                </div>
-            </div>
-            <div class="service-card">
-                <div class="service-number">05</div>
-                <h3>Mobile Development</h3>
-                <p>Building high-performance mobile applications for iOS and Android. Native and cross-platform solutions that deliver seamless user experiences.</p>
-                <div class="service-tech">
-                    <span class="tech-tag">React Native</span>
-                    <span class="tech-tag">Flutter</span>
-                    <span class="tech-tag">Swift</span>
-                    <span class="tech-tag">Kotlin</span>
-                </div>
-            </div>
-            <div class="service-card">
-                <div class="service-number">06</div>
-                <h3>E-Commerce Solutions</h3>
-                <p>Creating powerful online stores that drive sales and growth. Secure payment integrations and seamless shopping experiences.</p>
-                <div class="service-tech">
-                    <span class="tech-tag">Shopify</span>
-                    <span class="tech-tag">WooCommerce</span>
-                    <span class="tech-tag">Payment API</span>
-                    <span class="tech-tag">Security</span>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Gallery Section (Updated with exact interface-style images via external links) -->
-    <section class="gallery" id="gallery">
-        <div class="section-header">
-            <h2 class="section-title">Our <span class="gradient-text">Conquests</span></h2>
-            <p class="section-subtitle">Empires we've built for visionary companies</p>
-        </div>
-        <div class="gallery-grid">
-            <div class="gallery-item">
-                <div class="gallery-img">
-                    <img src="reign.png" alt="ReignFm Online Radio Interface">
-                </div>
-                <div class="gallery-overlay">
-                    <h3><a href="https://reignfm.com/" target="_blank" style="color: black; text-decoration: none;">ReignFm Digital Radio</a></h3>
-                    <p>24/7 online radio platform with sleek player interface, high-quality streaming, and urban music vibes.</p>
-                </div>
-            </div>
-            <div class="gallery-item">
-                <div class="gallery-img">
-                    <img src="gamers.png" alt="Gamers Hub Gaming Interface">
-                </div>
-                <div class="gallery-overlay">
-                    <h3><a href="https://gamershub12.netlify.app/" target="_blank" style="color: black; text-decoration: none;">Gamers Hub</a></h3>
-                    <p>Dynamic gaming community portal featuring news feeds, game thumbnails, and interactive hub design.</p>
-                </div>
-            </div>
-            <div class="gallery-item">
-                <div class="gallery-img">
-                    <img src="segis.png" alt="Segis Kitchen Food Platform Interface">
-                </div>
-                <div class="gallery-overlay">
-                    <h3><a href="https://segiskitchen.uk/" target="_blank" style="color: black; text-decoration: none;">Segis Kitchen</a></h3>
-                    <p>Elegant food platform showcasing fusion recipes, menus, appetizing dish galleries, and catering visuals.</p>
-                </div>
-            </div>
-            <div class="gallery-item">
-                <div class="gallery-img">
-                    <img src="et.png" alt="ETMovies Streaming Interface">
-                </div>
-                <div class="gallery-overlay">
-                    <h3><a href="https://etmovies.vercel.app/" target="_blank" style="color: black; text-decoration: none;">ETMovies Platform</a></h3>
-                    <p>Modern movie discovery hub with poster grids, trending films, detailed views, and seamless streaming UI.</p>
-                </div>
-            </div>
-            <div class="gallery-item">
-                <div class="gallery-img">
-                    <img src="toribox.png" alt="Toribox Admin Dashboard Interface">
-                </div>
-                <div class="gallery-overlay">
-                    <h3><a href="https://toribox-admin.vercel.app/" target="_blank" style="color: black; text-decoration: none;">Toribox Admin Dashboard</a></h3>
-                    <p>Powerful admin panel with dark-mode charts, tables, user management, and intuitive control layout.</p>
-                </div>
-            </div>
-            <div class="gallery-item">
-                <div class="gallery-img">
-                    <img src="aliwa.png" alt="ALI West Africa Leadership Platform">
-                </div>
-                <div class="gallery-overlay">
-                    <h3><a href="https://www.ali-wa.net/" target="_blank" style="color: black; text-decoration: none;">ALI West Africa</a></h3>
-                    <p>Professional leadership platform with fellowship details, program overviews, fellow spotlights, and impact-focused design.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section class="contact" id="contact">
-        <div class="section-header">
-            <h2 class="section-title">Build Your <span class="gradient-text">Empire</span></h2>
-            <p class="section-subtitle">Let's discuss how we can transform your vision into digital dominance</p>
-        </div>
-        <div class="contact-container">
-            <div class="contact-info">
-                <h2>Ready to Conquer?</h2>
-                <p>Every empire starts with a conversation. Let's architect your digital future together.</p>
-                <div class="contact-details">
-                    <div class="contact-item">
-                        <div class="contact-icon">📧</div>
-                        <div>
-                            <h4>Email</h4>
-                            <p>agboolagbolahan14@gmail.com</p>
+            <!-- Right profile -->
+            <div class="hero-visual">
+                <div class="profile-wrap">
+                    <div class="ring ring-a"></div>
+                    <div class="ring ring-b"></div>
+                    <div class="ring ring-c"></div>
+                    <div class="ring ring-d"></div>
+                    <div class="orbit-dot"
+                        style="width:10px;height:10px;background:var(--neon-blue);box-shadow:0 0 10px var(--neon-blue);--r:240px;animation-duration:8s">
+                    </div>
+                    <div class="orbit-dot"
+                        style="width:8px;height:8px;background:var(--neon-purple);box-shadow:0 0 8px var(--neon-purple);--r:280px;animation-duration:13s;animation-direction:reverse">
+                    </div>
+                    <div class="orbit-dot"
+                        style="width:6px;height:6px;background:var(--neon-pink);box-shadow:0 0 6px var(--neon-pink);--r:200px;animation-duration:6s">
+                    </div>
+                    <div class="orbit-dot"
+                        style="width:5px;height:5px;background:var(--neon-green);box-shadow:0 0 6px var(--neon-green);--r:260px;animation-duration:10s;animation-direction:reverse">
+                    </div>
+                    <div class="chip c1"><span>⚛️</span>React Dev</div>
+                    <div class="chip c2"><span>🎨</span>UI/UX</div>
+                    <div class="chip c3"><span>📱</span>Mobile Apps</div>
+                    <div class="chip c4"><span>🛒</span>E-Commerce</div>
+                    <div class="chip c5"><span>⚡</span>Node.js</div>
+                    <div class="p-frame-wrap">
+                        <span class="p-data pd-tl">DEV_01</span>
+                        <span class="p-data pd-tr">NGR·LAG</span>
+                        <div class="p-frame">
+                            <div class="p-inner">
+                                <!-- ✅ Replace your-photo.jpg & remove style="display:none" to show your photo -->
+                                <img class="p-img" src="images/file.png" alt="EmpyreTek Founder">
+                                <div class="p-placeholder">
+                                    <div class="p-ph-head"></div>
+                                    <div class="p-ph-body"></div>
+                                    <div class="p-ph-label"><span>👤</span>Add your photo here</div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="contact-item">
-                        <div class="contact-icon">📱</div>
-                        <div>
-                            <h4>Phone</h4>
-                            <p>+234 906 529 1459</p>
-                        </div>
-                    </div>
-                    <div class="contact-item">
-                        <div class="contact-icon">🌍</div>
-                        <div>
-                            <h4>Location</h4>
-                            <p>Lagos, Nigeria</p>
-                        </div>
-                    </div>
+                    <div class="p-glow"></div>
                 </div>
-            </div>
-            <div class="contact-form">
-                <form id="contactForm">
-                    <div class="form-group">
-                        <label>Name</label>
-                        <input type="text" name="name" placeholder="Your Name" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Email</label>
-                        <input type="email" name="email" placeholder="your@email.com" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Company</label>
-                        <input type="text" name="company" placeholder="Your Company">
-                    </div>
-                    <div class="form-group">
-                        <label>Message</label>
-                        <textarea name="message" placeholder="Tell us about your empire..." required></textarea>
-                    </div>
-                    <button type="submit" class="btn btn-primary" style="width: 100%;">Launch Your Empire</button>
-                </form>
             </div>
         </div>
     </section>
 
-    <!-- Footer -->
+    <!-- ===== MARQUEE (no Figma, no Express) ===== -->
+    <div class="marquee-sec">
+        <div class="marquee-track">
+            <div class="m-item"><span>⚛️</span>React<span class="m-dot"></span></div>
+            <div class="m-item"><span>🟨</span>JavaScript<span class="m-dot"></span></div>
+            <div class="m-item"><span>🅱️</span>Bootstrap<span class="m-dot"></span></div>
+            <div class="m-item"><span>💚</span>Node.js<span class="m-dot"></span></div>
+            <div class="m-item"><span>🎯</span>Flutter<span class="m-dot"></span></div>
+            <div class="m-item"><span>🛍️</span>Shopify<span class="m-dot"></span></div>
+            <div class="m-item"><span>🌐</span>WordPress<span class="m-dot"></span></div>
+            <div class="m-item"><span>🗄️</span>MongoDB<span class="m-dot"></span></div>
+            <div class="m-item"><span>🔥</span>Firebase<span class="m-dot"></span></div>
+            <div class="m-item"><span>🔷</span>TypeScript<span class="m-dot"></span></div>
+            <div class="m-item"><span>📱</span>React Native<span class="m-dot"></span></div>
+            <div class="m-item"><span>🎨</span>CSS3<span class="m-dot"></span></div>
+            <!-- duplicate for seamless loop -->
+            <div class="m-item"><span>⚛️</span>React<span class="m-dot"></span></div>
+            <div class="m-item"><span>🟨</span>JavaScript<span class="m-dot"></span></div>
+            <div class="m-item"><span>🅱️</span>Bootstrap<span class="m-dot"></span></div>
+            <div class="m-item"><span>💚</span>Node.js<span class="m-dot"></span></div>
+            <div class="m-item"><span>🎯</span>Flutter<span class="m-dot"></span></div>
+            <div class="m-item"><span>🛍️</span>Shopify<span class="m-dot"></span></div>
+            <div class="m-item"><span>🌐</span>WordPress<span class="m-dot"></span></div>
+            <div class="m-item"><span>🗄️</span>MongoDB<span class="m-dot"></span></div>
+            <div class="m-item"><span>🔥</span>Firebase<span class="m-dot"></span></div>
+            <div class="m-item"><span>🔷</span>TypeScript<span class="m-dot"></span></div>
+            <div class="m-item"><span>📱</span>React Native<span class="m-dot"></span></div>
+            <div class="m-item"><span>🎨</span>CSS3<span class="m-dot"></span></div>
+        </div>
+    </div>
+
+    <!-- ===== ABOUT ===== -->
+    <section class="about-sec" id="about">
+        <div class="about-code-rain" id="codeRain" aria-hidden="true"></div>
+        <svg class="circuit-deco" style="top:0;right:0;width:280px;height:280px" viewBox="0 0 300 300"
+            aria-hidden="true">
+            <line x1="260" y1="0" x2="260" y2="80" stroke="#00f0ff" stroke-width="1" />
+            <line x1="260" y1="80" x2="160" y2="80" stroke="#00f0ff" stroke-width="1" />
+            <line x1="160" y1="80" x2="160" y2="160" stroke="#00f0ff" stroke-width="1" />
+            <circle cx="260" cy="80" r="4" fill="#00f0ff" />
+            <circle cx="160" cy="160" r="4" fill="#bf00ff" />
+            <rect x="245" y="65" width="30" height="30" rx="4" fill="none" stroke="#00f0ff" stroke-width=".8" />
+        </svg>
+        <svg class="circuit-deco" style="bottom:0;left:0;width:220px;height:220px" viewBox="0 0 250 250"
+            aria-hidden="true">
+            <line x1="40" y1="250" x2="40" y2="180" stroke="#bf00ff" stroke-width="1" />
+            <line x1="40" y1="180" x2="130" y2="180" stroke="#bf00ff" stroke-width="1" />
+            <line x1="130" y1="180" x2="130" y2="100" stroke="#bf00ff" stroke-width="1" />
+            <circle cx="40" cy="180" r="4" fill="#bf00ff" />
+            <circle cx="130" cy="100" r="4" fill="#00f0ff" />
+            <rect x="118" y="88" width="24" height="24" rx="3" fill="none" stroke="#00f0ff" stroke-width=".8" />
+        </svg>
+        <div class="sec-max">
+            <div class="sec-head reveal">
+                <div class="sec-eyebrow">Who We Are</div>
+                <h2 class="sec-title">Why <span class="grad-text">EmpyreTek</span>?</h2>
+                <p class="sec-sub">We don't just build software. We architect digital ecosystems that dominate markets.
+                </p>
+            </div>
+            <div class="about-grid">
+                <div class="a-card reveal">
+                    <div class="a-num">01</div>
+                    <div class="a-icon">🚀</div>
+                    <h3>Innovation First</h3>
+                    <p>Cutting-edge tech — we build for tomorrow, not just today.</p>
+                </div>
+                <div class="a-card reveal">
+                    <div class="a-num">02</div>
+                    <div class="a-icon">💎</div>
+                    <h3>Premium Quality</h3>
+                    <p>Every pixel, every line of code — crafted with obsessive attention to detail.</p>
+                </div>
+                <div class="a-card reveal">
+                    <div class="a-num">03</div>
+                    <div class="a-icon">⚡</div>
+                    <h3>Lightning Fast</h3>
+                    <p>Optimised infrastructure ensures peak performance, 24/7, globally.</p>
+                </div>
+                <div class="a-card reveal">
+                    <div class="a-num">04</div>
+                    <div class="a-icon">🛡️</div>
+                    <h3>Secure by Default</h3>
+                    <p>Encryption and continuous monitoring keep your empire impenetrable.</p>
+                </div>
+                <div class="a-card reveal">
+                    <div class="a-num">05</div>
+                    <div class="a-icon">🎯</div>
+                    <h3>Result Driven</h3>
+                    <p>Every solution delivers measurable, real-world business outcomes.</p>
+                </div>
+                <div class="a-card reveal">
+                    <div class="a-num">06</div>
+                    <div class="a-icon">🌐</div>
+                    <h3>Global Scale</h3>
+                    <p>Built to serve millions across continents from day one.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== STATS ===== -->
+    <section class="stats-sec">
+        <svg class="stats-zz" preserveAspectRatio="none" viewBox="0 0 1440 60" aria-hidden="true">
+            <polyline points="0,30 120,5 240,55 360,5 480,55 600,5 720,55 840,5 960,55 1080,5 1200,55 1320,5 1440,30"
+                fill="none" stroke="#00f0ff" stroke-width="1.5" />
+        </svg>
+        <div class="sec-max">
+            <div class="stats-grid">
+                <div class="stat-card reveal scale">
+                    <span class="stat-icon">🏆</span><span class="counter" data-target="15">0</span>+
+                    <p>Projects Delivered</p>
+                </div>
+                <div class="stat-card reveal scale">
+                    <span class="stat-icon">😊</span><span class="counter" data-target="15">0</span>+
+                    <p>Happy Clients</p>
+                </div>
+                <div class="stat-card reveal scale">
+                    <span class="stat-icon">📅</span><span class="counter" data-target="4">0</span>+
+                    <p>Years Experience</p>
+                </div>
+                <div class="stat-card reveal scale">
+                    <span class="stat-icon">💻</span><span class="counter" data-target="5000">0</span>+
+                    <p>Lines of Code Written</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== SERVICES ===== -->
+    <section class="services-sec" id="services">
+        <div class="srv-hex-bg" aria-hidden="true"></div>
+        <svg class="srv-tri t-tr" width="300" height="300" viewBox="0 0 300 300" aria-hidden="true">
+            <defs>
+                <linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#00f0ff" />
+                    <stop offset="100%" stop-color="#bf00ff" />
+                </linearGradient>
+            </defs>
+            <polygon points="300,0 300,300 0,0" fill="url(#g1)" opacity=".35" />
+        </svg>
+        <svg class="srv-tri t-bl" width="300" height="300" viewBox="0 0 300 300" aria-hidden="true">
+            <defs>
+                <linearGradient id="g2" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#bf00ff" />
+                    <stop offset="100%" stop-color="#ff006e" />
+                </linearGradient>
+            </defs>
+            <polygon points="0,0 0,300 300,300" fill="url(#g2)" opacity=".35" />
+        </svg>
+        <div class="sec-max">
+            <div class="sec-head reveal">
+                <div class="sec-eyebrow">What We Build</div>
+                <h2 class="sec-title">Our <span class="grad-text">Arsenal</span></h2>
+                <p class="sec-sub">Powerful solutions engineered to conquer any digital challenge</p>
+            </div>
+            <div class="srv-grid">
+                <div class="s-card reveal">
+                    <div class="s-ico ico-blue">🖥️</div>
+                    <div class="s-num">01</div>
+                    <h3>Frontend Development</h3>
+                    <p>Stunning, responsive interfaces that captivate users and convert visitors into customers.</p>
+                    <div class="tag-row"><span class="tag">HTML</span><span class="tag">CSS</span><span
+                            class="tag">Bootstrap</span><span class="tag">JavaScript</span><span
+                            class="tag">React</span></div>
+                    <div class="s-peek">View details →</div>
+                </div>
+                <div class="s-card reveal">
+                    <div class="s-ico ico-purple">⚙️</div>
+                    <div class="s-num">02</div>
+                    <h3>Backend Development</h3>
+                    <p>Robust, scalable server-side solutions. APIs and databases built to handle any load.</p>
+                    <div class="tag-row"><span class="tag">Node.js</span><span class="tag">MongoDB</span><span
+                            class="tag">Firebase</span><span class="tag">REST API</span></div>
+                    <div class="s-peek">View details →</div>
+                </div>
+                <div class="s-card reveal">
+                    <div class="s-ico ico-pink">🧠</div>
+                    <div class="s-num">03</div>
+                    <h3>IT Consultation</h3>
+                    <p>Expert technology advisory. Strategic guidance on architecture and digital transformation.</p>
+                    <div class="tag-row"><span class="tag">Strategy</span><span class="tag">Architecture</span><span
+                            class="tag">Audit</span><span class="tag">Optimization</span></div>
+                    <div class="s-peek">View details →</div>
+                </div>
+                <div class="s-card reveal">
+                    <div class="s-ico ico-green">✏️</div>
+                    <div class="s-num">04</div>
+                    <h3>Graphics Design</h3>
+                    <p>Logos to full visual identities — designs that tell your brand story and leave lasting
+                        impressions.</p>
+                    <div class="tag-row"><span class="tag">Logo Design</span><span class="tag">Branding</span><span
+                            class="tag">UI/UX</span><span class="tag">Print</span></div>
+                    <div class="s-peek">View details →</div>
+                </div>
+                <div class="s-card reveal">
+                    <div class="s-ico ico-blue">📱</div>
+                    <div class="s-num">05</div>
+                    <h3>Mobile Development</h3>
+                    <p>High-performance iOS & Android apps that deliver seamless user experiences.</p>
+                    <div class="tag-row"><span class="tag">React Native</span><span class="tag">Flutter</span><span
+                            class="tag">Swift</span><span class="tag">Kotlin</span></div>
+                    <div class="s-peek">View details →</div>
+                </div>
+                <div class="s-card reveal">
+                    <div class="s-ico ico-purple">🛒</div>
+                    <div class="s-num">06</div>
+                    <h3>E-Commerce Solutions</h3>
+                    <p>Powerful online stores with secure payment integrations that maximise conversions.</p>
+                    <div class="tag-row"><span class="tag">Shopify</span><span class="tag">WooCommerce</span><span
+                            class="tag">Payment API</span><span class="tag">Security</span></div>
+                    <div class="s-peek">View details →</div>
+                </div>
+                <div class="s-card reveal">
+                    <div class="s-ico ico-green">🌐</div>
+                    <div class="s-num">07</div>
+                    <h3>WordPress Development</h3>
+                    <p>Custom WordPress sites and themes — fast, SEO-friendly, and easy for you to manage.</p>
+                    <div class="tag-row"><span class="tag">WordPress</span><span class="tag">Elementor</span><span
+                            class="tag">WooCommerce</span><span class="tag">Custom Themes</span></div>
+                    <div class="s-peek">View details →</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== PROCESS ===== -->
+    <section class="process-sec" id="process">
+        <div class="proc-wm" aria-hidden="true">PROCESS</div>
+        <div class="sec-max">
+            <div class="sec-head reveal">
+                <div class="sec-eyebrow">How We Work</div>
+                <h2 class="sec-title">Our <span class="grad-text">Process</span></h2>
+                <p class="sec-sub">A battle-tested methodology that turns your vision into a digital empire</p>
+            </div>
+            <div class="process-steps">
+                <div class="p-step reveal">
+                    <div class="p-num">01</div>
+                    <h4>Discovery</h4>
+                    <p>Deep-dive into your goals, audience, and competitive landscape.</p>
+                </div>
+                <div class="p-step reveal">
+                    <div class="p-num">02</div>
+                    <h4>Strategy & Design</h4>
+                    <p>Wireframes, prototypes, and visual designs. Every pixel has a reason.</p>
+                </div>
+                <div class="p-step reveal">
+                    <div class="p-num">03</div>
+                    <h4>Development</h4>
+                    <p>Clean, scalable code built with modern best practices.</p>
+                </div>
+                <div class="p-step reveal">
+                    <div class="p-num">04</div>
+                    <h4>Launch & Support</h4>
+                    <p>Rigorous QA, smooth deployment, and ongoing support.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== GALLERY ===== -->
+    <section class="gal-sec" id="gallery">
+        <div class="sec-max">
+            <div class="sec-head reveal">
+                <div class="sec-eyebrow">Portfolio</div>
+                <h2 class="sec-title">Our <span class="grad-text">Conquests</span></h2>
+                <p class="sec-sub">Empires we've built for visionary clients — hover to explore</p>
+            </div>
+            <div class="gal-grid">
+                <div class="gal-item reveal"><span class="gal-badge">🎵 Radio</span>
+                    <div class="gal-img"><img src="images/reign.png" alt="ReignFm"></div>
+                    <div class="gal-ov">
+                        <h3>ReignFm Digital Radio</h3>
+                        <p>24/7 online radio platform with sleek streaming interface.</p><a href="https://reignfm.com/"
+                            target="_blank" rel="noopener" class="gal-link">Visit Site ↗</a>
+                    </div>
+                </div>
+                <div class="gal-item reveal"><span class="gal-badge">🎮 Gaming</span>
+                    <div class="gal-img"><img src="images/gamers.png" alt="Gamers Hub"></div>
+                    <div class="gal-ov">
+                        <h3>Gamers Hub</h3>
+                        <p>Dynamic gaming community portal with news and interactive hub.</p><a
+                            href="https://gamershub12.netlify.app/" target="_blank" rel="noopener"
+                            class="gal-link">Visit Site ↗</a>
+                    </div>
+                </div>
+                <div class="gal-item reveal"><span class="gal-badge">🍽️ Food</span>
+                    <div class="gal-img"><img src="images/segis.png" alt="Segis Kitchen"></div>
+                    <div class="gal-ov">
+                        <h3>Segis Kitchen</h3>
+                        <p>Elegant food platform showcasing fusion recipes and catering.</p><a
+                            href="https://segiskitchen.uk/" target="_blank" rel="noopener" class="gal-link">Visit Site
+                            ↗</a>
+                    </div>
+                </div>
+                <div class="gal-item reveal"><span class="gal-badge">🎬 Streaming</span>
+                    <div class="gal-img"><img src="images/et.png" alt="ETMovies"></div>
+                    <div class="gal-ov">
+                        <h3>ETMovies Platform</h3>
+                        <p>Modern movie discovery hub with poster grids and seamless UI.</p><a
+                            href="https://etmovies.vercel.app/" target="_blank" rel="noopener" class="gal-link">Visit
+                            Site ↗</a>
+                    </div>
+                </div>
+                <div class="gal-item reveal"><span class="gal-badge">📊 Admin</span>
+                    <div class="gal-img"><img src="images/toribox.png" alt="Toribox"></div>
+                    <div class="gal-ov">
+                        <h3>Toribox Admin</h3>
+                        <p>Powerful admin panel with dark-mode charts and tables.</p><a
+                            href="https://toribox-admin.vercel.app/" target="_blank" rel="noopener"
+                            class="gal-link">Visit Site ↗</a>
+                    </div>
+                </div>
+                <div class="gal-item reveal"><span class="gal-badge">🌍 Leadership</span>
+                    <div class="gal-img"><img src="images/aliwa.png" alt="ALI West Africa"></div>
+                    <div class="gal-ov">
+                        <h3>ALI West Africa</h3>
+                        <p>Professional leadership platform with impact-focused design.</p><a
+                            href="https://www.ali-wa.net/" target="_blank" rel="noopener" class="gal-link">Visit Site
+                            ↗</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== TESTIMONIALS ===== -->
+    <section class="testi-sec" id="testimonials">
+        <svg class="testi-qbg" viewBox="0 0 400 300" aria-hidden="true"><text x="0" y="220" font-family="serif"
+                font-size="260" fill="#00f0ff">"</text></svg>
+        <div class="sec-max">
+            <div class="sec-head reveal">
+                <div class="sec-eyebrow">Social Proof</div>
+                <h2 class="sec-title">Client <span class="grad-text">Victories</span></h2>
+                <p class="sec-sub">What empire-builders say after working with us</p>
+            </div>
+            <div class="quote-grid">
+                <div class="q-card reveal">
+                    <div class="q-stars">★★★★★</div>
+                    <p class="q-text">"EmpyreTek delivered beyond expectations. The admin dashboard doubled our leads in the first
+                        month. They think like business owners, not just developers."</p>
+                    <div class="q-author">
+                        <div class="q-av">ED</div>
+                        <div>
+                            <div class="q-name">Effiong David</div>
+                            <div class="q-role">CEO, Toribox</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="q-card reveal">
+                    <div class="q-stars">★★★★★</div>
+                    <p class="q-text">"ReignFm went from concept to a full streaming platform. Our listeners can't stop
+                        complimenting how smooth it feels. Exceptional work."</p>
+                    <div class="q-author">
+                        <div class="q-av">OO</div>
+                        <div>
+                            <div class="q-name">Olalekan Olalere</div>
+                            <div class="q-role">Founder, ReignFm</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="q-card reveal">
+                    <div class="q-stars">★★★★★</div>
+                    <p class="q-text">"Professional, fast, and genuinely talented. EmpyreTek understood our vision
+                        immediately and built something even better than we imagined."</p>
+                    <div class="q-author">
+                        <div class="q-av">OA</div>
+                        <div>
+                            <div class="q-name">Olawunmi Ajiboye</div>
+                            <div class="q-role">Owner, Segis Kitchen</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== CONTACT ===== -->
+    <section class="contact-sec" id="contact">
+        <div class="contact-mesh" aria-hidden="true"></div>
+        <div class="sec-max">
+            <div class="sec-head reveal">
+                <div class="sec-eyebrow">Let's Connect</div>
+                <h2 class="sec-title">Build Your <span class="grad-text">Empire</span></h2>
+                <p class="sec-sub">Every empire starts with a conversation. Let's architect your future together.</p>
+            </div>
+            <div class="contact-wrap">
+                <div class="reveal left">
+                    <h2 class="ci-title">Ready to Conquer?</h2>
+                    <p class="ci-desc">We respond within 24 hours. Tell us your vision and we'll show you how to turn it
+                        into digital dominance.</p>
+                    <div class="ci-list">
+                        <div class="ci-item">
+                            <div class="ci-ico">📧</div>
+                            <div>
+                                <h4>Email</h4>
+                                <p>agboolagbolahan14@gmail.com</p>
+                            </div>
+                        </div>
+                        <div class="ci-item">
+                            <div class="ci-ico">📱</div>
+                            <div>
+                                <h4>Phone</h4>
+                                <p>+234 906 529 1459</p>
+                            </div>
+                        </div>
+                        <div class="ci-item">
+                            <div class="ci-ico">🌍</div>
+                            <div>
+                                <h4>Location</h4>
+                                <p>Lagos, Nigeria</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="avail-bar"><span class="avail-dot"></span>Currently available for new projects</div>
+                </div>
+                <div class="reveal right">
+                    <div class="cf-box">
+                        <form id="contactForm">
+                            <div class="fg-row">
+                                <div class="fg"><label>Name</label><input type="text" name="name"
+                                        placeholder="Your Name" required></div>
+                                <div class="fg"><label>Email</label><input type="email" name="email"
+                                        placeholder="you@email.com" required></div>
+                            </div>
+                            <div class="fg"><label>Company</label><input type="text" name="company"
+                                    placeholder="Your Company (optional)"></div>
+                            <div class="fg"><label>What are you building?</label><textarea name="message"
+                                    placeholder="Tell us about your empire..." required></textarea></div>
+                            <button type="submit" class="btn btn-p" style="width:100%;justify-content:center">🚀 Launch
+                                Your Empire</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
     <footer>
-        <div class="footer-content">
-            <div class="footer-section">
+        <div class="footer-grid">
+            <div class="footer-brand">
                 <h3>EmpyreTek</h3>
-                <p>Building digital empires that stand the test of time. Innovation, excellence, and dominance in every line of code.</p>
-                <div class="social-links">
-                    <a href="#" class="social-icon">𝕏</a>
-                    <a href="#" class="social-icon">in</a>
-                    <a href="#" class="social-icon">f</a>
-                    <a href="#" class="social-icon">📷</a>
+                <p>Building digital empires that stand the test of time. Innovation, excellence, and dominance in every
+                    line of code.</p>
+                <div class="socials">
+                    <a href="#" class="soc" aria-label="Twitter">𝕏</a>
+                    <a href="#" class="soc" aria-label="LinkedIn">in</a>
+                    <a href="#" class="soc" aria-label="Facebook">f</a>
+                    <a href="#" class="soc" aria-label="Instagram">📷</a>
+                    <a href="#" class="soc" aria-label="GitHub">⌥</a>
                 </div>
+            </div>
+            <div class="footer-col">
+                <h4>Services</h4>
+                <ul>
+                    <li><a href="#services">Frontend Development</a></li>
+                    <li><a href="#services">Backend Development</a></li>
+                    <li><a href="#services">Mobile Development</a></li>
+                    <li><a href="#services">Graphics Design</a></li>
+                    <li><a href="#services">IT Consultation</a></li>
+                    <li><a href="#services">E-Commerce</a></li>
+                    <li><a href="#services">WordPress</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="#gallery">Portfolio</a></li>
+                    <li><a href="#process">Our Process</a></li>
+                    <li><a href="#testimonials">Testimonials</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
             </div>
         </div>
         <div class="footer-bottom">
-            <p>© 2026 EmpyreTek. All rights reserved. | Privacy Policy | Terms of Service</p>
+            <p>&copy; 2026 <span>EmpyreTek</span>. All rights reserved.</p>
+            <p>Built with ❤️ in <span>Lagos, Nigeria</span></p>
         </div>
     </footer>
+
     <script src="main.js"></script>
 </body>
+
 </html>

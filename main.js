@@ -1,150 +1,247 @@
-    // Create animated particles
-    function createParticles() {
-        const bgAnimation = document.getElementById('bgAnimation');
-        for (let i = 0; i < 50; i++) {
-            const particle = document.createElement('div');
-            particle.className = 'particle';
-            particle.style.left = Math.random() * 100 + '%';
-            particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
-            particle.style.animationDelay = Math.random() * 5 + 's';
-            bgAnimation.appendChild(particle);
-        }
+/* ==========================================================
+   EmpyreTek — main.js
+   ========================================================== */
 
-        // Create tech spheres as part of particles
-        createTechSpheres(bgAnimation);
+/* ── THEME TOGGLE ─────────────────────────────────────────── */
+const html = document.documentElement;
+const themeToggle = document.getElementById("themeToggle");
+
+// Apply saved theme on load
+const savedTheme = localStorage.getItem("et-theme") || "dark";
+html.setAttribute("data-theme", savedTheme);
+
+themeToggle.addEventListener("click", () => {
+  const current = html.getAttribute("data-theme");
+  const next = current === "dark" ? "light" : "dark";
+  html.setAttribute("data-theme", next);
+  localStorage.setItem("et-theme", next);
+});
+
+/* ── CUSTOM CURSOR ────────────────────────────────────────── */
+const cur = document.getElementById("cur");
+const curRing = document.getElementById("curRing");
+let mx = 0,
+  my = 0,
+  rx = 0,
+  ry = 0;
+
+document.addEventListener("mousemove", (e) => {
+  mx = e.clientX;
+  my = e.clientY;
+  cur.style.left = mx + "px";
+  cur.style.top = my + "px";
+});
+
+(function lerp() {
+  rx += (mx - rx) * 0.12;
+  ry += (my - ry) * 0.12;
+  curRing.style.left = rx + "px";
+  curRing.style.top = ry + "px";
+  requestAnimationFrame(lerp);
+})();
+
+document
+  .querySelectorAll("a, button, .a-card, .s-card, .gal-item")
+  .forEach((el) => {
+    el.addEventListener("mouseenter", () => {
+      cur.style.transform = "translate(-50%,-50%) scale(2)";
+      curRing.style.transform = "translate(-50%,-50%) scale(1.5)";
+    });
+    el.addEventListener("mouseleave", () => {
+      cur.style.transform = "translate(-50%,-50%) scale(1)";
+      curRing.style.transform = "translate(-50%,-50%) scale(1)";
+    });
+  });
+
+/* ── HAMBURGER + SIDE DRAWER ──────────────────────────────── */
+const hamburger = document.getElementById("hamburger");
+const sideDrawer = document.getElementById("sideDrawer");
+const drawerClose = document.getElementById("drawerClose");
+const drawerBackdrop = document.getElementById("drawerBackdrop");
+
+function openDrawer() {
+  sideDrawer.classList.add("is-open");
+  drawerBackdrop.classList.add("show");
+  hamburger.classList.add("is-open");
+  hamburger.setAttribute("aria-expanded", "true");
+  sideDrawer.setAttribute("aria-hidden", "false");
+  document.body.style.overflow = "hidden"; // prevent background scroll
+}
+
+function closeDrawer() {
+  sideDrawer.classList.remove("is-open");
+  drawerBackdrop.classList.remove("show");
+  hamburger.classList.remove("is-open");
+  hamburger.setAttribute("aria-expanded", "false");
+  sideDrawer.setAttribute("aria-hidden", "true");
+  document.body.style.overflow = "";
+}
+
+hamburger.addEventListener("click", () => {
+  sideDrawer.classList.contains("is-open") ? closeDrawer() : openDrawer();
+});
+
+drawerClose.addEventListener("click", closeDrawer);
+drawerBackdrop.addEventListener("click", closeDrawer);
+
+// Close drawer when any link inside it is clicked
+sideDrawer
+  .querySelectorAll("a")
+  .forEach((a) => a.addEventListener("click", closeDrawer));
+
+// Close drawer on Escape key
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") closeDrawer();
+});
+
+/* ── NAV SCROLL SHADOW ────────────────────────────────────── */
+const nav = document.getElementById("nav");
+window.addEventListener("scroll", () => {
+  nav.classList.toggle("scrolled", window.scrollY > 80);
+});
+
+/* ── FLOATING PARTICLES ───────────────────────────────────── */
+(function spawnParticles() {
+  const bg = document.getElementById("bgCanvas");
+  const colors = ["#00f0ff", "#bf00ff", "#ff006e"];
+  for (let i = 0; i < 50; i++) {
+    const p = document.createElement("div");
+    p.className = "particle";
+    const size = Math.random() < 0.5 ? 2 : 3;
+    const color = colors[Math.floor(Math.random() * colors.length)];
+    p.style.cssText = [
+      `left:${Math.random() * 100}%`,
+      `width:${size}px`,
+      `height:${size}px`,
+      `background:${color}`,
+      `animation-duration:${Math.random() * 12 + 10}s`,
+      `animation-delay:${Math.random() * 8}s`,
+    ].join(";");
+    bg.appendChild(p);
+  }
+})();
+
+/* ── SCROLL REVEAL ────────────────────────────────────────── */
+const revealObserver = new IntersectionObserver(
+  (entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add("visible"), i * 80);
+      }
+    });
+  },
+  { threshold: 0.08, rootMargin: "0px 0px -40px 0px" },
+);
+
+document
+  .querySelectorAll(".reveal")
+  .forEach((el) => revealObserver.observe(el));
+
+/* ── COUNTER ANIMATION ────────────────────────────────────── */
+function animateCounter(el) {
+  const target = parseInt(el.dataset.target);
+  const duration = 1800;
+  const step = (target / duration) * 16;
+  let current = 0;
+  const timer = setInterval(() => {
+    current += step;
+    if (current >= target) {
+      current = target;
+      clearInterval(timer);
     }
+    el.textContent = Math.floor(current).toLocaleString();
+  }, 16);
+}
 
-    function createTechSpheres(container) {
-        const colors = ['var(--neon-blue)', 'var(--neon-purple)', 'var(--neon-pink)'];
-
-        for (let i = 0; i < 3; i++) {
-            const sphere = document.createElement('div');
-            sphere.className = 'tech-node';
-            sphere.style.left = Math.random() * 100 + '%';
-            sphere.style.top = Math.random() * 100 + '%';
-            sphere.style.borderColor = colors[Math.floor(Math.random() * colors.length)];
-            sphere.style.animationDuration = (Math.random() * 10 + 15) + 's';
-            sphere.style.animationDelay = Math.random() * 5 + 's';
-
-            container.appendChild(sphere);
-        }
-
-        // Create floating tech nodes like particles
-        for (let i = 0; i < 8; i++) {
-            const node = document.createElement('div');
-            node.className = 'tech-node';
-            node.style.left = Math.random() * 100 + '%';
-            node.style.animationDuration = (Math.random() * 10 + 10) + 's';
-            node.style.animationDelay = Math.random() * 5 + 's';
-            node.style.background = colors[Math.floor(Math.random() * colors.length)];
-            container.appendChild(node);
-        }
-    }
-
-    createParticles();
-
-    // Mobile Navigation
-    const navToggle = document.getElementById('navToggle');
-    const navLinks = document.getElementById('navLinks');
-
-    navToggle.addEventListener('click', () => {
-        navToggle.classList.toggle('active');
-        navLinks.classList.toggle('active');
+const counterObserver = new IntersectionObserver(
+  (entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        animateCounter(entry.target);
+        counterObserver.unobserve(entry.target);
+      }
     });
+  },
+  { threshold: 0.5 },
+);
 
-    document.querySelectorAll('.nav-links a').forEach(link => {
-        link.addEventListener('click', () => {
-            navToggle.classList.remove('active');
-            navLinks.classList.remove('active');
-        });
+document
+  .querySelectorAll(".counter")
+  .forEach((el) => counterObserver.observe(el));
+
+/* ── CODE RAIN (About section bg) ────────────────────────── */
+(function buildCodeRain() {
+  const container = document.getElementById("codeRain");
+  if (!container) return;
+  const snippets = [
+    "const empire = build()",
+    "import { React }",
+    "function launch() {",
+    ".style { color:#00f0ff }",
+    "npm run deploy",
+    "git push origin main",
+    "async/await success",
+    "return dominate();",
+    "border-radius:20px",
+    "flex-direction:col",
+    "> innovation.exe",
+    "webpack --build",
+    "port:3000 ✓",
+  ];
+  for (let i = 0; i < 8; i++) {
+    const col = document.createElement("div");
+    col.style.cssText = [
+      "flex:0 0 auto",
+      "writing-mode:vertical-rl",
+      `animation:p-rise ${12 + Math.random() * 10}s ${Math.random() * 6}s linear infinite`,
+      "opacity:0",
+    ].join(";");
+    const lines = [];
+    for (let j = 0; j < 6; j++)
+      lines.push(snippets[Math.floor(Math.random() * snippets.length)]);
+    col.textContent = lines.join("\n\n");
+    container.appendChild(col);
+  }
+})();
+
+/* ── EMAILJS CONTACT FORM ─────────────────────────────────── */
+(function () {
+  emailjs.init("g64K8ESSaAtIO5e44");
+})();
+
+document.getElementById("contactForm").addEventListener("submit", (e) => {
+  e.preventDefault();
+  const fd = new FormData(e.target);
+  const btn = e.target.querySelector('button[type="submit"]');
+
+  btn.textContent = "Sending…";
+  btn.disabled = true;
+
+  emailjs
+    .send("service_b7euula", "template_4jniva6", {
+      from_name: fd.get("name"),
+      from_email: fd.get("email"),
+      company: fd.get("company") || "Not specified",
+      message: fd.get("message"),
+      time: new Date().toLocaleString("en-US", {
+        dateStyle: "medium",
+        timeStyle: "short",
+      }),
+      current_year: new Date().getFullYear(),
+      to_email: "agboolagbolahan14@gmail.com",
+    })
+    .then(() => {
+      alert("Empire launched! 🚀 We'll be in touch within 24 hours.");
+      e.target.reset();
+    })
+    .catch((err) => {
+      alert(
+        "Something went wrong. Please email us directly at agboolagbolahan14@gmail.com",
+      );
+      console.error("EmailJS error:", err);
+    })
+    .finally(() => {
+      btn.textContent = "🚀 Launch Your Empire";
+      btn.disabled = false;
     });
-
-    // Navbar scroll effect
-    const navbar = document.getElementById('navbar');
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 100) {
-            navbar.classList.add('scrolled');
-        } else {
-            navbar.classList.remove('scrolled');
-        }
-    });
-
-    // Smooth scrolling
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                target.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-            }
-        });
-    });
-
-    // Intersection Observer for animations
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -100px 0px'
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.style.opacity = '1';
-                entry.target.style.transform = 'translateY(0)';
-            }
-        });
-    }, observerOptions);
-
-    // Observe elements
-    document.querySelectorAll('.about-card, .service-card, .gallery-item').forEach(el => {
-        el.style.opacity = '0';
-        el.style.transform = 'translateY(50px)';
-        el.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
-        observer.observe(el);
-    });
-
-    // Initialize EmailJS
-    (function(){
-        emailjs.init("g64K8ESSaAtIO5e44"); // Public Key
-    })();
-
-    // Form submission
-    document.getElementById('contactForm').addEventListener('submit', (e) => {
-        e.preventDefault();
-
-        // Get form data
-        const formData = new FormData(e.target);
-        const templateParams = {
-            from_name: formData.get('name'),
-            from_email: formData.get('email'),
-            company: formData.get('company') || 'Not specified',
-            message: formData.get('message'),
-            time: new Date().toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short' }),
-            current_year: new Date().getFullYear(),
-            to_email: 'agboolagbolahan14@gmail.com'
-        };
-
-        // Send email using EmailJS
-        emailjs.send('service_b7euula', 'template_4jniva6', templateParams)
-            .then(function(response) {
-                console.log('SUCCESS!', response.status, response.text);
-                alert('Thank you for your message! We will contact you soon to start building your empire.');
-                e.target.reset();
-            }, function(error) {
-                console.log('FAILED...', error);
-                alert('Sorry, there was an error sending your message. Please try again later.');
-            });
-    });
-
-    // Tech sphere parallax effect
-    const techSpheres = document.querySelectorAll('.tech-sphere');
-    techSpheres.forEach((sphere, index) => {
-        window.addEventListener('mousemove', (e) => {
-            const x = (e.clientX / window.innerWidth - 0.5) * (10 + index * 5);
-            const y = (e.clientY / window.innerHeight - 0.5) * (10 + index * 5);
-            sphere.style.transform = `translate(-50%, -50%) translate(${x}px, ${y}px) rotate(${sphere.style.animationDuration ? parseFloat(sphere.style.animationDuration) * 360 : 0}deg)`;
-        });
-    });
+});
