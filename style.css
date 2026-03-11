@@ -2342,7 +2342,11 @@ footer::before {
   } /* hide desktop links */
   .hamburger {
     display: flex;
+    margin-left: 0.5rem;
   } /* show hamburger */
+  .logo {
+    font-size: 1.2rem;
+  } /* smaller logo for mobile */
   .hero {
     padding: 6.5rem 1.4rem 4rem;
   }
