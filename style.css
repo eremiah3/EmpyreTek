@@ -2429,7 +2429,7 @@ footer::before {
     text-align: center;
   }
   .stats-grid {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
   }
   .chip {
     font-size: 0.7rem;
