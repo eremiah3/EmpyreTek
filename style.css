@@ -2373,6 +2373,9 @@ footer::before {
   .ring-d {
     display: none;
   }
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
   .c1,
   .c3 {
     left: 0;
